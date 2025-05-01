@@ -1,7 +1,7 @@
-const userModel = require("../models/userModel");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const validator = require("validator");
+import userModel from "../models/userModel.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import validator from "validator";
 
 // Create token
 const createToken = (id) => {
@@ -65,4 +65,5 @@ const registerUser = async (req, res) => {
     }
 };
 
-module.exports = { loginUser, registerUser };
+// Export functions using ES module export
+export { loginUser, registerUser };
