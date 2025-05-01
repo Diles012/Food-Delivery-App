@@ -2,12 +2,14 @@ import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
-import "dotenv/config.js";
+import dotenv from 'dotenv';
 
+// Load environment variables
+dotenv.config();
 
 // Create token
 const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET);
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
 // Login user
