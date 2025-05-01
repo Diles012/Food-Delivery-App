@@ -1,39 +1,37 @@
-import userModel from "../models/userModel.js"
-import jwt from "jsonwebtoken"
-import bcrypt from "bcryptjs"
-import validator from "validator"
+const userModel = require("../models/userModel");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const validator = require("validator");
 
+// Create token
+const createToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET);
+};
 
-// login user
-const  loginUser = async (req, res) => {
-    const { email, password } = req.body
+// Login user
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
     try {
-        const user = await userModel.findOne({email})
+        const user = await userModel.findOne({ email });
 
         if (!user) {
-            return res.json({success:false,message:"User not found"})
+            return res.json({ success: false, message: "User not found" });
         }
-        const isMatch = await bcrypt.compare(password, user.password)
+
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.json({success:false,message:"Invalid credentials"})
+            return res.json({ success: false, message: "Invalid credentials" });
         }
+
         const token = createToken(user._id);
-        res.json({success:true,token})
+        res.json({ success: true, token });
     } catch (error) {
         console.log(error);
-        res.json({success:false,message:"Internal server error"})
-        
-        
+        res.json({ success: false, message: "Internal server error" });
     }
-        
+};
 
-}
-
-const createToken = (id) =>{
-    return jwt.sign({id},process.env.JWT_SECRET)
-}
-
-// register user
+// Register user
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -67,7 +65,4 @@ const registerUser = async (req, res) => {
     }
 };
 
-
-
-
-export {loginUser,registerUser}
+module.exports = { loginUser, registerUser };
