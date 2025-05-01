@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import validator from "validator";
+import "dotenv/config.js";
 
 
 // Create token
